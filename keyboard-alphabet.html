@@ -3,16 +3,18 @@
 <head>
     <title>HCI Keyboard Stimulus Program</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
     <div class="container">
-        <div class="sequence-container">
-            "PRESS SPACE TO START THE EXPERIMENT"
+        <div class="sequence-container" id="sequenceContainer">
+            "PRESS SPACE TO START THE EXPERIMENT"<br><br><br>
+            Then try to recreate the shown sequence by typing
+            on the visual keyboard as fast as possible.
         </div>
-        <div class="keyboard-container" id="upper-row">
-            <div class="keyboard-row">
+        <div class="keyboard-container" id="keyboardContainer">
+            <div class="keyboard-row" id="upper-row">
                 <div class="key" id="a">A</div>
                 <div class="key" id="b">B</div>
                 <div class="key" id="c">C</div>

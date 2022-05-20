@@ -11,6 +11,8 @@ body {
 }
 
 .container {
+    display:flex;
+    flex-direction: column;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -22,8 +24,11 @@ body {
 .sequence-container {
     /** border: 1px solid #149414; */
     color: #149414;
-    text-align: center;
     padding: 30px;
+    width: auto;
+    height:120px;
+    vertical-align: middle;
+    text-align: center;
 }
 
 .keyboard-container {
