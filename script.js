@@ -1,6 +1,7 @@
 //DOM objects
 var sequenceContainer = document.getElementById("sequenceContainer");
 var spaceButton = document.getElementById("space");
+var trialCountContainer = document.getElementById("trial");
 
 //variables
 var experimentActive = false;
@@ -11,6 +12,8 @@ var allMovementTimes = [];
 var allIndicesOfPerformance = [];
 var startTime = 0;
 var endTime = 0;
+var trialCount = 0;
+var trialActive = false;
 
 var currentKeyPos = [];
 var previousKeyPos = [];
@@ -31,11 +34,7 @@ document.addEventListener("click", function(event){
         if(clickedKeyId=="space") {   
             startExperiment();
 
-            currentKeyBoundingClient=document.getElementById(clickedKeyId).getBoundingClientRect();
-            currentKeyPosX = currentKeyBoundingClient.left + currentKeyBoundingClient.width;
-            currentKeyPosY = currentKeyBoundingClient.top + currentKeyBoundingClient.height;
-            currentKeyPos[0] = currentKeyPosX;
-            currentKeyPos[1] = currentKeyPosY;
+            assignFirstKey();
 
 
             return;
@@ -43,17 +42,26 @@ document.addEventListener("click", function(event){
     }
 
   
-    if(experimentActive && isKey) {
-       compareCharacter(event);
+    if(experimentActive && isKey && trialActive) {
+        compareCharacter(event);
     }
 
 
 });
  
 
+function assignFirstKey() {
+    currentKeyBoundingClient = spaceButton.getBoundingClientRect();
+    currentKeyPosX = currentKeyBoundingClient.left + currentKeyBoundingClient.width;
+    currentKeyPosY = currentKeyBoundingClient.top + currentKeyBoundingClient.height;
+    currentKeyPos[0] = currentKeyPosX;
+    currentKeyPos[1] = currentKeyPosY;
+}
+
 function startExperiment() {
     experimentActive = true;
     sequenceContainer.innerHTML="";
+    trialCountContainer.innerHTML= "Trial " + trialCount + "|20";
     sequenceContainer.style.letterSpacing="8px";
     startTrial();
 
@@ -61,6 +69,7 @@ function startExperiment() {
 
 
 function startTrial() {
+    trialActive = true;
     generateSequence();
     startTime = Date.now();
 
@@ -109,8 +118,8 @@ function compareCharacter(event) {
         var indexOfPerformance = Math.log2(1 + distanceBetweenKeys/boundingClient.width);
         allIndicesOfPerformance.push(indexOfPerformance);
 
-
         if(focusedLetter<sequenceArray.length-1) {
+
             sequenceContainer.children[focusedLetter].style.color="green";
             focusedLetter++;
             focusLetter(focusedLetter);
@@ -119,9 +128,18 @@ function compareCharacter(event) {
 
         }
         else {
+            console.log("fin");
             finishTrial();
-            console.log(allMovementTimes);
-            console.log(allIndicesOfPerformance);
+            if (trialCount < 20) {
+                refreshData();
+                setTimeout(function() {
+                    startNewTrial()
+                }, 3000);
+            }
+            else {
+                finishExperiment();
+            }
+         
         }   
     }
     else if(clickedKey!=currentChar) {       
@@ -134,12 +152,10 @@ function compareCharacter(event) {
 }
 
 function finishTrial() {
+    trialActive = false;
     sequenceContainer.children[focusedLetter].style.color = "green";
     sequenceContainer.style.textDecoration = "line-through";
-
- 
-
-
+    trialCount++;
 
 }
 
@@ -147,3 +163,31 @@ function focusLetter(letterPosition) {
     sequenceContainer.children[letterPosition].style.color="white";
 }
 
+
+function refreshData() {
+   /** for(var i=0; i<sequenceArray.length; i++) {
+        console.log(sequenceContainer.children[i]);
+        sequenceContainer.removeChild[i];
+    } */
+    sequenceContainer.innerHTML = "";
+    sequenceContainer.style.textDecoration="none";
+    trialCountContainer.innerHTML= "Trial " + trialCount + "|20";
+    sequenceArray = [];
+    currentChar = null;
+    focusedLetter = 0;
+    startTime = 0;
+    endTime = 0;
+    currentKeyPos = [];
+    previousKeyPos = [];
+    console.log("clear");
+}
+
+
+function startNewTrial() {
+    assignFirstKey();
+    startTrial();
+}
+
+function finishExperiment() {
+
+}
