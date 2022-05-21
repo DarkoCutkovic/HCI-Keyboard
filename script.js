@@ -165,10 +165,7 @@ function focusLetter(letterPosition) {
 
 
 function refreshData() {
-   /** for(var i=0; i<sequenceArray.length; i++) {
-        console.log(sequenceContainer.children[i]);
-        sequenceContainer.removeChild[i];
-    } */
+ 
     sequenceContainer.innerHTML = "";
     sequenceContainer.style.textDecoration="none";
     trialCountContainer.innerHTML= "Trial " + trialCount + "|20";
