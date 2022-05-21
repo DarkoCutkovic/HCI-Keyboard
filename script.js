@@ -8,15 +8,17 @@ var sequenceArray = [];
 var currentChar = null;
 var focusedLetter = 0;
 var allMovementTimes = [];
-var allIndicesOfIndex = [];
+var allIndicesOfPerformance = [];
 var startTime = 0;
 var endTime = 0;
+
+var currentKeyPos = [];
+var previousKeyPos = [];
 
 
 
 //constants
 const characters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.";
-const keyWidth = 50;
 
 
 
@@ -27,6 +29,14 @@ document.addEventListener("click", function(event){
     if (!experimentActive) {
         if(clickedKeyId=="space") {   
             startExperiment();
+
+            currentKeyBoundingClient=document.getElementById(clickedKeyId).getBoundingClientRect();
+            currentKeyPosX = currentKeyBoundingClient.left + currentKeyBoundingClient.width;
+            currentKeyPosY = currentKeyBoundingClient.top + currentKeyBoundingClient.height;
+            currentKeyPos[0] = currentKeyPosX;
+            currentKeyPos[1] = currentKeyPosY;
+
+
             return;
         }
     }
@@ -52,6 +62,8 @@ function startExperiment() {
 function startTrial() {
     generateSequence();
     startTime = Date.now();
+
+    
 }
 
 
@@ -84,6 +96,19 @@ function compareCharacter(event) {
         startTime=0;
         endTime=0;
 
+        previousKeyPos[0] = currentKeyPos[0];
+        previousKeyPos[1] = currentKeyPos[1];
+        
+        boundingClient=clickedKey.getBoundingClientRect();
+        currentKeyPosX = boundingClient.left + boundingClient.width;
+        currentKeyPosY = boundingClient.top + boundingClient.height;
+        currentKeyPos[0] = currentKeyPosX;
+        currentKeyPos[1] = currentKeyPosY;
+
+        var distanceBetweenKeys = Math.hypot(currentKeyPos[0] - previousKeyPos[0], currentKeyPos[1] - previousKeyPos[1]);
+        var indexOfPerformance = Math.log2(1 + distanceBetweenKeys/boundingClient.width);
+        allIndicesOfPerformance.push(indexOfPerformance);
+
 
         if(focusedLetter<sequenceArray.length-1) {
             sequenceContainer.children[focusedLetter].style.color="green";
@@ -96,6 +121,7 @@ function compareCharacter(event) {
         else {
             finishTrial();
             console.log(allMovementTimes);
+            console.log(allIndicesOfPerformance);
         }   
     }
     else if(clickedKey!=currentChar && isKey) {       
