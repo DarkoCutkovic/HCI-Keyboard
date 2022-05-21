@@ -47,7 +47,7 @@ function startTrial() {
 
 
 function generateSequence() {
-    // 15 machen noch
+    // 5 bloß zum Testen eingestellt, Default wird 15 sein
     for (i = 0; i < 5; i++) {
         var randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length));
         sequenceArray.push(randomCharacter);
