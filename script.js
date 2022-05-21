@@ -7,6 +7,8 @@ var experimentActive = false;
 var sequenceArray = [];
 var currentChar = null;
 var focusedLetter = 0;
+var allMovementTimes = [];
+var allIndicesOfIndex = [];
 
 //constants
 const characters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.";
@@ -62,6 +64,8 @@ function compareCharacter(event) {
     clickedKeyChar = event.target.innerHTML;
     currentChar=sequenceArray[focusedLetter];
     var clickedKey = document.getElementById(event.target.id);
+ 
+    isKey = (event.target.id.length==1 ||event.target.id=="comma"||event.target.id=="point");
 
     if(clickedKeyChar==currentChar)  {
         console.log("hi");
@@ -75,7 +79,7 @@ function compareCharacter(event) {
             sequenceContainer.style.textDecoration="line-through";
         }   
     }
-    else if(clickedKey!=currentChar && event.target.id.length==1) {
+    else if(clickedKey!=currentChar && isKey) {
         
         sequenceContainer.children[focusedLetter].style.color="red";
         setTimeout(function()  {
