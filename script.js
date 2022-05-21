@@ -23,8 +23,7 @@ document.addEventListener("click", function(event){
         }
     }
 
-    // hier eventuell suchen beschränken auf wenn
-    // key gedrückt wird, geht aber auch ohne
+  
     if(experimentActive) {
        compareCharacter(event);
     }
@@ -64,7 +63,6 @@ function compareCharacter(event) {
     currentChar=sequenceArray[focusedLetter];
     var clickedKey = document.getElementById(event.target.id);
 
-    // line through ganz am ende  wird fresh aussehen
     if(clickedKeyChar==currentChar)  {
         console.log("hi");
         if(focusedLetter<sequenceArray.length-1) {
@@ -75,10 +73,15 @@ function compareCharacter(event) {
         else {
             sequenceContainer.children[focusedLetter].style.color="green";
             sequenceContainer.style.textDecoration="line-through";
-            
-        }
-        
+        }   
     }
+    else if(clickedKey!=currentChar && event.target.id!=null) {
+        sequenceContainer.children[focusedLetter].style.color="red";
+        setTimeout(function()  {
+            focusLetter(focusedLetter)
+        }, 100);
+    }
+
 }
 
 function focusLetter(letterPosition) {
