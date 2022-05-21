@@ -69,6 +69,13 @@ body {
     font-size:125%;
 }
 
+
+.key:active {
+    background-color: white;
+    color:black;
+    font-size:125%;
+}
+
 #middle-row {
     margin-left:54px;
 }

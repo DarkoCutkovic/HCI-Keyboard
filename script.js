@@ -95,6 +95,7 @@ function compareCharacter(event) {
     var clickedKey = document.getElementById(event.target.id);
  
 
+
     if(clickedKeyChar==currentChar)  {
 
         endTime = Date.now();
