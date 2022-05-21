@@ -17,7 +17,7 @@ var trialActive = false;
 
 var currentKeyPos = [];
 var previousKeyPos = [];
-
+var data = "";
 
 
 //constants
@@ -130,8 +130,8 @@ function compareCharacter(event) {
         else {
             console.log("fin");
             finishTrial();
-            if (trialCount < 20) {
-                refreshData();
+            refreshData();
+            if (trialCount < 1) {
                 setTimeout(function() {
                     startNewTrial()
                 }, 3000);
@@ -189,5 +189,34 @@ function startNewTrial() {
 }
 
 function finishExperiment() {
+    trialCount=0;
+    console.log();
+    experimentActive = false;
+    sequenceContainer.style.letterSpacing="0";
+    sequenceContainer.innerHTML="Thank you for participating!<br>Press Space to repeat the experiment<br>";
+    exportData();
+    
+}
 
+
+function exportData() {
+    data+="Movement Times: \n"
+    for(let i = 0; i<allMovementTimes.length; i++ ) {
+        data+= allMovementTimes[i] + " ";
+    }
+    data+="\n\n";
+    data+="Indices of Performance: \n"
+    for(let i = 0; i<allIndicesOfPerformance.length; i++ ) {
+        data+= allIndicesOfPerformance[i] + " ";
+    }
+    createExportFile(data);
+    }
+
+ 
+function createExportFile(data) {
+    var element = document.createElement('a');
+    var file = new Blob([data], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = name + 'keyboard_alphabetical.txt';
+    element.click();
 }
