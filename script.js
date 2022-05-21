@@ -9,9 +9,15 @@ var currentChar = null;
 var focusedLetter = 0;
 var allMovementTimes = [];
 var allIndicesOfIndex = [];
+var startTime = 0;
+var endTime = 0;
+
+
 
 //constants
 const characters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.";
+const keyWidth = 50;
+
 
 
 
@@ -45,6 +51,7 @@ function startExperiment() {
 
 function startTrial() {
     generateSequence();
+    startTime = Date.now();
 }
 
 
@@ -60,6 +67,7 @@ function generateSequence() {
     focusLetter(0);
 }
 
+
 function compareCharacter(event) {
     clickedKeyChar = event.target.innerHTML;
     currentChar=sequenceArray[focusedLetter];
@@ -68,24 +76,44 @@ function compareCharacter(event) {
     isKey = (event.target.id.length==1 ||event.target.id=="comma"||event.target.id=="point");
 
     if(clickedKeyChar==currentChar)  {
-        console.log("hi");
+
+        endTime = Date.now();
+        movementTime = endTime - startTime;
+        allMovementTimes.push(movementTime);
+
+        startTime=0;
+        endTime=0;
+
+
         if(focusedLetter<sequenceArray.length-1) {
             sequenceContainer.children[focusedLetter].style.color="green";
             focusedLetter++;
             focusLetter(focusedLetter);
+
+            startTime = Date.now();
+
         }
         else {
-            sequenceContainer.children[focusedLetter].style.color="green";
-            sequenceContainer.style.textDecoration="line-through";
+            finishTrial();
+            console.log(allMovementTimes);
         }   
     }
-    else if(clickedKey!=currentChar && isKey) {
-        
+    else if(clickedKey!=currentChar && isKey) {       
         sequenceContainer.children[focusedLetter].style.color="red";
         setTimeout(function()  {
             focusLetter(focusedLetter)
         }, 100);
     }
+
+}
+
+function finishTrial() {
+    sequenceContainer.children[focusedLetter].style.color = "green";
+    sequenceContainer.style.textDecoration = "line-through";
+
+ 
+
+
 
 }
 
