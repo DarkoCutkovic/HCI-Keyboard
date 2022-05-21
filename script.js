@@ -6,6 +6,7 @@ var spaceButton = document.getElementById("space");
 var experimentActive = false;
 var sequenceArray = [];
 var currentChar = null;
+var focusedLetter = 0;
 
 //constants
 const characters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.";
@@ -47,20 +48,40 @@ function startTrial() {
 
 
 function generateSequence() {
-    for (i = 0; i < 15; i++) {
+    // 15 machen noch
+    for (i = 0; i < 5; i++) {
         var randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length));
         sequenceArray.push(randomCharacter);
-        sequenceContainer.innerHTML = sequenceContainer.innerHTML.concat(sequenceArray[i]);
+        let childChar = document.createElement("div");
+        childChar.innerHTML=randomCharacter;
+        sequenceContainer.appendChild(childChar);
     }
+    focusLetter(0);
 }
 
 function compareCharacter(event) {
     clickedKeyChar = event.target.innerHTML;
-    currentChar=sequenceArray[0];
+    currentChar=sequenceArray[focusedLetter];
     var clickedKey = document.getElementById(event.target.id);
 
+    // line through ganz am ende  wird fresh aussehen
     if(clickedKeyChar==currentChar)  {
         console.log("hi");
-        sequenceContainer.style.color="white";
+        if(focusedLetter<sequenceArray.length-1) {
+            sequenceContainer.children[focusedLetter].style.color="green";
+            focusedLetter++;
+            focusLetter(focusedLetter);
+        }
+        else {
+            sequenceContainer.children[focusedLetter].style.color="green";
+            sequenceContainer.style.textDecoration="line-through";
+            
+        }
+        
     }
 }
+
+function focusLetter(letterPosition) {
+    sequenceContainer.children[letterPosition].style.color="white";
+}
+
