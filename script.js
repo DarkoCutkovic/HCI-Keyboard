@@ -78,8 +78,7 @@ function startTrial() {
 
 
 function generateSequence() {
-    // 5 bloß zum Testen eingestellt, Default wird 15 sein
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 15; i++) {
         var randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length));
         sequenceArray.push(randomCharacter);
         let childChar = document.createElement("div");
@@ -131,7 +130,7 @@ function compareCharacter(event) {
             console.log("fin");
             finishTrial();
             refreshData();
-            if (trialCount < 1) {
+            if (trialCount < 20) {
                 setTimeout(function() {
                     startNewTrial()
                 }, 3000);
