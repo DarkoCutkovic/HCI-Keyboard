@@ -75,7 +75,8 @@ function compareCharacter(event) {
             sequenceContainer.style.textDecoration="line-through";
         }   
     }
-    else if(clickedKey!=currentChar && event.target.id!=null) {
+    else if(clickedKey!=currentChar && event.target.id.length==1) {
+        
         sequenceContainer.children[focusedLetter].style.color="red";
         setTimeout(function()  {
             focusLetter(focusedLetter)
