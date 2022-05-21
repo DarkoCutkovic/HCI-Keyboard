@@ -25,6 +25,7 @@ const characters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.";
 
 document.addEventListener("click", function(event){
     var clickedKeyId = event.target.id;
+    isKey = (event.target.id.length==1 ||event.target.id=="comma"||event.target.id=="point");
 
     if (!experimentActive) {
         if(clickedKeyId=="space") {   
@@ -42,7 +43,7 @@ document.addEventListener("click", function(event){
     }
 
   
-    if(experimentActive) {
+    if(experimentActive && isKey) {
        compareCharacter(event);
     }
 
@@ -85,7 +86,6 @@ function compareCharacter(event) {
     currentChar=sequenceArray[focusedLetter];
     var clickedKey = document.getElementById(event.target.id);
  
-    isKey = (event.target.id.length==1 ||event.target.id=="comma"||event.target.id=="point");
 
     if(clickedKeyChar==currentChar)  {
 
@@ -124,7 +124,7 @@ function compareCharacter(event) {
             console.log(allIndicesOfPerformance);
         }   
     }
-    else if(clickedKey!=currentChar && isKey) {       
+    else if(clickedKey!=currentChar) {       
         sequenceContainer.children[focusedLetter].style.color="red";
         setTimeout(function()  {
             focusLetter(focusedLetter)
