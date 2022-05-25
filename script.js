@@ -28,15 +28,13 @@ const characters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.";
 
 document.addEventListener("click", function(event){
     var clickedKeyId = event.target.id;
-    isKey = (event.target.id.length==1 ||event.target.id=="comma"||event.target.id=="point");
+    //why is this needed? Is there any other clickable element except the keys?
+    let isKey = (event.target.id.length==1 || event.target.id=="comma"|| event.target.id=="point");
 
     if (!experimentActive) {
         if(clickedKeyId=="space") {   
             startExperiment();
-
             assignFirstKey();
-
-
             return;
         }
     }
@@ -165,7 +163,6 @@ function focusLetter(letterPosition) {
 
 
 function refreshData() {
- 
     sequenceContainer.innerHTML = "";
     sequenceContainer.style.textDecoration="none";
     trialCountContainer.innerHTML= "Trial " + trialCount + "|20";
@@ -176,7 +173,6 @@ function refreshData() {
     endTime = 0;
     currentKeyPos = [];
     previousKeyPos = [];
-    console.log("clear");
 }
 
 
@@ -187,27 +183,25 @@ function startNewTrial() {
 
 function finishExperiment() {
     trialCount=0;
-    console.log();
     experimentActive = false;
     sequenceContainer.style.letterSpacing="0";
     sequenceContainer.innerHTML="Thank you for participating!<br>Press Space to repeat the experiment<br>";
     exportData();
-    
 }
 
 
 function exportData() {
     data+="Movement Times: \n"
     for(let i = 0; i<allMovementTimes.length; i++ ) {
-        data+= allMovementTimes[i] + " ";
+        data+= allMovementTimes[i] + "; ";
     }
     data+="\n\n";
     data+="Indices of Performance: \n"
     for(let i = 0; i<allIndicesOfPerformance.length; i++ ) {
-        data+= allIndicesOfPerformance[i] + " ";
+        data+= allIndicesOfPerformance[i] + "; ";
     }
     createExportFile(data);
-    }
+}
 
  
 function createExportFile(data) {
