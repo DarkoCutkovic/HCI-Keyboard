@@ -1,0 +1,2 @@
+y-Achsenabschnitt: 1207.2233456000527
+Steigung: [219.20484704]
